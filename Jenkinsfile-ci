@@ -14,8 +14,8 @@ pipeline {
         DOCKERHUB_USER = 'ibrahimgamal10203040'
         DOCKER_CONFIG  = '/home/jenkins/agent/.docker'
 
-        APP_REPO  = 'https://github.com/Ibrahim-Gamal-Ibrahim/automated-weather_app-deployment.git'
-        GITOPS_REPO = 'https://github.com/YOUR-USERNAME/YOUR-GITOPS-REPO.git'
+        APP_REPO  = 'https://github.com/Ibrahim-Gamal-Ibrahim/weather-app-jenkins-ci.git'
+        GITOPS_REPO = 'https://github.com/Ibrahim-Gamal-Ibrahim/weather-app-manifests-argocd.git'
 
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
@@ -189,9 +189,7 @@ EOF
 
                             rm -rf gitops
 
-                            git clone \
-                              https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/YOUR-USERNAME/YOUR-GITOPS-REPO.git \
-                              gitops
+                            git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Ibrahim-Gamal-Ibrahim/weather-app-manifests-argocd.git gitops
 
                             cd gitops
 
@@ -202,27 +200,21 @@ EOF
                             # Update Auth image
                             # -------------------------------------------------
 
-                            sed -i -E \
-                              "s|^([[:space:]]*image:[[:space:]]*${DOCKERHUB_USER}/weatherapp-auth:).*|\\1${IMAGE_TAG}|" \
-                              auth/deployment.yaml
+                            sed -i -E "s|^([[:space:]]*image:[[:space:]]*\")${DOCKERHUB_USER}/weatherapp-auth:[^\"]*(\".*)|\1${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\2|" authentication/deployment.yaml
 
 
                             # -------------------------------------------------
                             # Update Weather image
                             # -------------------------------------------------
 
-                            sed -i -E \
-                              "s|^([[:space:]]*image:[[:space:]]*${DOCKERHUB_USER}/weatherapp-weather:).*|\\1${IMAGE_TAG}|" \
-                              weather/deployment.yaml
+                            sed -i -E "s|^([[:space:]]*image:[[:space:]]*\")${DOCKERHUB_USER}/weatherapp-weather:[^\"]*(\".*)|\1${DOCKERHUB_USER}/weatherapp-weather:${IMAGE_TAG}\2|" weather/deployment.yaml
 
 
                             # -------------------------------------------------
                             # Update UI image
                             # -------------------------------------------------
 
-                            sed -i -E \
-                              "s|^([[:space:]]*image:[[:space:]]*${DOCKERHUB_USER}/weatherapp-ui:).*|\\1${IMAGE_TAG}|" \
-                              ui/deployment.yaml
+                            sed -i -E "s|^([[:space:]]*image:[[:space:]]*\")${DOCKERHUB_USER}/weatherapp-ui:[^\"]*(\".*)|\1${DOCKERHUB_USER}/weatherapp-ui:${IMAGE_TAG}\2|" ui/deployment.yaml
 
 
                             echo ""
