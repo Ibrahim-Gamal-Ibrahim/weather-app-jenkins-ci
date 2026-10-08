@@ -200,27 +200,26 @@ EOF
                             # Update Auth image
                             # -------------------------------------------------
 
-                            sed -i -E "s|^([[:space:]]*image:[[:space:]]*\")${DOCKERHUB_USER}/weatherapp-auth:[^\"]*(\".*)|\1${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\2|" authentication/deployment.yaml
-
+                            sed -i "s|image: \".*weatherapp-auth:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\"|" authentication/deployment.yaml
 
                             # -------------------------------------------------
                             # Update Weather image
                             # -------------------------------------------------
 
-                            sed -i -E "s|^([[:space:]]*image:[[:space:]]*\")${DOCKERHUB_USER}/weatherapp-weather:[^\"]*(\".*)|\1${DOCKERHUB_USER}/weatherapp-weather:${IMAGE_TAG}\2|" weather/deployment.yaml
+                            sed -i "s|image: \".*weatherapp-weather:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\"|" weather/deployment.yaml
 
 
                             # -------------------------------------------------
                             # Update UI image
                             # -------------------------------------------------
 
-                            sed -i -E "s|^([[:space:]]*image:[[:space:]]*\")${DOCKERHUB_USER}/weatherapp-ui:[^\"]*(\".*)|\1${DOCKERHUB_USER}/weatherapp-ui:${IMAGE_TAG}\2|" ui/deployment.yaml
+                            sed -i "s|image: \".*weatherapp-ui:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\"|" ui/deployment.yaml
 
 
                             echo ""
                             echo "Updated image references:"
                             grep -R "image: ${DOCKERHUB_USER}/weatherapp-" \
-                                auth/deployment.yaml \
+                                authentication/deployment.yaml \
                                 weather/deployment.yaml \
                                 ui/deployment.yaml
 
@@ -248,7 +247,7 @@ EOF
                             # -------------------------------------------------
 
                             git add \
-                                auth/deployment.yaml \
+                                authentication/deployment.yaml \
                                 weather/deployment.yaml \
                                 ui/deployment.yaml
 
