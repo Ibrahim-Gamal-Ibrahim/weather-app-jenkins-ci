@@ -206,14 +206,14 @@ EOF
                             # Update Weather image
                             # -------------------------------------------------
 
-                            sed -i "s|image: \".*weatherapp-weather:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\"|" weather/deployment.yaml
+                            sed -i "s|image: \".*weatherapp-weather:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-weather:${IMAGE_TAG}\"|" weather/deployment.yaml
 
 
                             # -------------------------------------------------
                             # Update UI image
                             # -------------------------------------------------
 
-                            sed -i "s|image: \".*weatherapp-ui:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-auth:${IMAGE_TAG}\"|" ui/deployment.yaml
+                            sed -i "s|image: \".*weatherapp-ui:.*\"|image: \"${DOCKERHUB_USER}/weatherapp-ui:${IMAGE_TAG}\"|" ui/deployment.yaml
 
 
                             echo ""
